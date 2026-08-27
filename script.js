@@ -90,6 +90,8 @@
   var lightboxCap = document.getElementById('lightboxCap');
   var lightboxClose = document.getElementById('lightboxClose');
   var lastFocused = null;
+  /* 1x1 transparent GIF: keeps the lightbox <img> a valid, decodable image while idle */
+  var LIGHTBOX_BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
   function openLightbox(src, caption) {
     if (!lightbox || !lightboxImg) return;
@@ -105,7 +107,10 @@
   function hideLightbox() {
     if (!lightbox) return;
     lightbox.hidden = true;
-    if (lightboxImg) lightboxImg.setAttribute('src', '');
+    if (lightboxImg) {
+      lightboxImg.setAttribute('src', LIGHTBOX_BLANK);
+      lightboxImg.setAttribute('alt', '');
+    }
     document.body.style.overflow = '';
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
